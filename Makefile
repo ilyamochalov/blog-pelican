@@ -8,7 +8,6 @@ OUTPUTDIR=$(BASEDIR)/output
 CONFFILE=$(BASEDIR)/pelicanconf.py
 PUBLISHCONF=$(BASEDIR)/publishconf.py
 
-NOW=$(date)
 FTP_HOST=localhost
 FTP_USER=anonymous
 FTP_TARGET_DIR=/
@@ -122,7 +121,7 @@ github: publish
 	ghp-import -m "Generate Pelican site" -b $(GITHUB_PAGES_BRANCH) $(OUTPUTDIR)
 	git push origin $(GITHUB_PAGES_BRANCH)
 	git add .
-	git commit -m "$NOW"
+	git commit -m "One more commit"
 	git push -f blog-pelican
 
 .PHONY: html help clean regenerate serve serve-global devserver stopserver publish ssh_upload rsync_upload dropbox_upload ftp_upload s3_upload cf_upload github
