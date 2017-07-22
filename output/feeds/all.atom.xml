@@ -1,5 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ilya's code and more</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2017-07-13T15:00:00+08:00</updated><entry><title>How to Use Nginx's map Module</title><link href="/how-to-use-nginxs-map-module.html" rel="alternate"></link><published>2017-07-13T15:00:00+08:00</published><updated>2017-07-13T15:00:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-07-13:/how-to-use-nginxs-map-module.html</id><summary type="html">&lt;h1&gt;How to Use Nginx's map Module.&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ilya's code and more</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2017-07-21T22:00:00+08:00</updated><entry><title>SSL with Let's Encrypt &amp; Nginx on Debian Jessie</title><link href="/ssl-with-lets-encrypt-nginx-on-debian-jessie.html" rel="alternate"></link><published>2017-07-21T22:00:00+08:00</published><updated>2017-07-21T22:00:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-07-21:/ssl-with-lets-encrypt-nginx-on-debian-jessie.html</id><summary type="html">&lt;h1&gt;SSL with Let's Encrypt &amp;amp; Nginx on Debian Jessie.&lt;/h1&gt;
+&lt;h2&gt;About SSL&lt;/h2&gt;
+&lt;p&gt;SSL (Secure Sockets Layer) or TLS (Transport Layer Security) are protocols that helps you to secure connection to your web-resource. TLS/SSL certificates enable encrypted HTTPS on web servers.
+There are various ways to set HTTPS, but in this quick …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;SSL with Let's Encrypt &amp;amp; Nginx on Debian Jessie.&lt;/h1&gt;
+&lt;h2&gt;About SSL&lt;/h2&gt;
+&lt;p&gt;SSL (Secure Sockets Layer) or TLS (Transport Layer Security) are protocols that helps you to secure connection to your web-resource. TLS/SSL certificates enable encrypted HTTPS on web servers.
+There are various ways to set HTTPS, but in this quick tutorial I will show you my workflow with &lt;a href="https://letsencrypt.org/"&gt;Let's Encrypt&lt;/a&gt; on Debian Jessie (or any other debian linux distro, Ubuntu for example) with Nginx web server.&lt;/p&gt;
+&lt;h2&gt;About Let's encrypt&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://letsencrypt.org/"&gt;Let's Encrypt&lt;/a&gt; is a new Certificate Authority (CA) that provides an easy way to obtain and install free TLS/SSL certificates. If you want to obtain certificate from Let's Encrypt you will have to demonstrate that you have control over your domain.&lt;/p&gt;
+&lt;p&gt;To prove that domain is ours we will have to create folder dedicated for online challenge, configure Nginx to have access to that folder. So, when we run Let's Encrypt challenge it first creates a file in mentioned previously folder and then the AC part of Let's Encrypt will try remotely access that file on your server. If Nginx configured correct and points to right folder when AC () asks for access, you pass challenge and Let's encrypt create certificates for your domain name.&lt;/p&gt;
+&lt;h2&gt;Configuration of Let's Encrypt &amp;amp; Nginx&lt;/h2&gt;
+&lt;h3&gt;Requirements&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;SSH access to your web server&lt;/li&gt;
+&lt;li&gt;Nginx &lt;a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-debian-8"&gt;installed&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Let's encrypt installation and obtaining of certificates&lt;/h3&gt;
+&lt;p&gt;1) Install let's encrypt code and prepare the environment:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo apt-get install certbot -t jessie-backports
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;2) Create a folder for the online challenge where we prove that domain name belongs to us:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo mkdir /srv/www/le/domain.name.com
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;3) Configure your Nginx to prepare for online challenge:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;server &lt;span class="o"&gt;{&lt;/span&gt;
+    listen &lt;span class="m"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    server_name domain.name.com&lt;span class="p"&gt;;&lt;/span&gt;
+
+    location &lt;span class="s1"&gt;&amp;#39;/.well-known/acme-challenge&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        root /srv/www/le/domain.name.com/&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;don't forger to reload your Nginx to enable new configurations&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo systemctl reload nginx.service
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;4) Run online challenge to create certificates&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo certbot certonly --webroot -w /srv/www/le/domian.name.com -d domian.name.com
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;in this command &lt;code&gt;/srv/www/le/domian.name.com&lt;/code&gt; is a dedicated folder where Let's Encrypt palce file so AC can check it remotely and determine is domain is over our control.&lt;/p&gt;
+&lt;p&gt;If challenge went well you will see output similar to&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;IMPORTANT NOTES:
+- Congratulations! Your certificate and chain have been saved at
+/etc/letsencrypt/live/domian.name.com/fullchain.pem. Your cert
+will expire on &lt;span class="m"&gt;2017&lt;/span&gt;-07-26. To obtain a new or tweaked version of
+this certificate in the future, simply run certbot again. To
+non-interactively renew *all* of your certificates, run &lt;span class="s2"&gt;&amp;quot;certbot&lt;/span&gt;
+&lt;span class="s2"&gt;renew&amp;quot;&lt;/span&gt;
+- If you lose your account credentials, you can recover through
+e-mails sent to sammy@example.com.
+- Your account credentials have been saved in your Certbot
+configuration directory at /etc/letsencrypt. You should make a
+secure backup of this folder now. This configuration directory will
+also contain certificates and private keys obtained by Certbot so
+making regular backups of this folder is ideal.
+- If you like Certbot, please consider supporting our work by:
+
+Donating to ISRG / Let&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;s Encrypt:   https://letsencrypt.org/donate
+Donating to EFF:                    https://eff.org/donate-le
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;5) Configure SSL part in Nginx&lt;/p&gt;
+&lt;p&gt;First we need to redirect all HTTP requsts to HTTPS, by adding following to Nginx configs at HTTP part&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;server &lt;span class="o"&gt;{&lt;/span&gt;
+    listen &lt;span class="m"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    server_name example.com&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="m"&gt;301&lt;/span&gt; https://&lt;span class="nv"&gt;$server_name$request_uri&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    ...
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Second we need to add block for HTTPS to Nginx configs&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;server &lt;span class="o"&gt;{&lt;/span&gt;
+    listen &lt;span class="m"&gt;443&lt;/span&gt; ssl&lt;span class="p"&gt;;&lt;/span&gt;
+    server_name domain.name.com&lt;span class="p"&gt;;&lt;/span&gt;
+
+    include ssl_params&lt;span class="p"&gt;;&lt;/span&gt;
+    ssl_certificate /etc/letsencrypt/live/domain.name.com/fullchain.pem&lt;span class="p"&gt;;&lt;/span&gt;
+    ssl_certificate_key /etc/letsencrypt/live/domain.name.com/privkey.pem&lt;span class="p"&gt;;&lt;/span&gt;
+    ssl_trusted_certificate /etc/letsencrypt/live/domain.name.com/chain.pem&lt;span class="p"&gt;;&lt;/span&gt;
+
+    location &lt;span class="s1"&gt;&amp;#39;/.well-known/acme-challenge&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        root /srv/www/le/domain.name.com/&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    ....
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Certificates renewal&lt;/h3&gt;
+&lt;p&gt;To renew all the certificate, simply run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo certbot --force-renewal renew
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To list certs due for renewal, run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo certbot --dry-run renew
+&lt;/pre&gt;&lt;/div&gt;</content><category term="nginx"></category><category term="SSL"></category></entry><entry><title>How to Use Nginx's map Module</title><link href="/how-to-use-nginxs-map-module.html" rel="alternate"></link><published>2017-07-13T15:00:00+08:00</published><updated>2017-07-13T15:00:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-07-13:/how-to-use-nginxs-map-module.html</id><summary type="html">&lt;h1&gt;How to Use Nginx's map Module.&lt;/h1&gt;
 &lt;p&gt;Sometimes we need to redirect old URI of our web service to new URI, without changing our legacy frontend. I will walk you through Nginx's map Module that can be used to achieve our goal.&lt;/p&gt;
 &lt;h2&gt;Step 1 – Creating map file&lt;/h2&gt;
 &lt;p&gt;Create file called uri_map …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;How to Use Nginx's map Module.&lt;/h1&gt;
@@ -53,7 +165,7 @@ Location: https://domain.name.com/old/uri1
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Happy codding&lt;/p&gt;</content><category term="nginx"></category></entry><entry><title>My very first post</title><link href="/my-very-first-post.html" rel="alternate"></link><published>2017-06-28T22:01:00+08:00</published><updated>2017-06-28T22:01:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-06-28:/my-very-first-post.html</id><summary type="html">&lt;h1&gt;My very first blog post. Motivation.&lt;/h1&gt;
+&lt;p&gt;Happy codding!&lt;/p&gt;</content><category term="nginx"></category></entry><entry><title>My very first post</title><link href="/my-very-first-post.html" rel="alternate"></link><published>2017-06-28T22:01:00+08:00</published><updated>2017-06-28T22:01:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-06-28:/my-very-first-post.html</id><summary type="html">&lt;h1&gt;My very first blog post. Motivation.&lt;/h1&gt;
 &lt;p&gt;I am both excited and thrilled to start this blog. This would be my first blogging experience. Main motivation for starting this project is to share my technical experience dealing with various IT tools that I use at work and as hobby.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;“You should …&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;</summary><content type="html">&lt;h1&gt;My very first blog post. Motivation.&lt;/h1&gt;
 &lt;p&gt;I am both excited and thrilled to start this blog. This would be my first blogging experience. Main motivation for starting this project is to share my technical experience dealing with various IT tools that I use at work and as hobby.&lt;/p&gt;
