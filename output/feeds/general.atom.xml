@@ -111,6 +111,21 @@ Donating to EFF:                    https://eff.org/donate-le
 
 &lt;p&gt;To list certs due for renewal, run:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo certbot --dry-run renew
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To make life easier I have a cron at &lt;code&gt;/etc/cron.d/sertbot&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# /etc/cron.d/certbot: crontab entries for the certbot package&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# Upstream recommends attempting renewal twice a day&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# Eventually, this will be an opportunity to validate certificates&lt;/span&gt;
+&lt;span class="c1"&gt;# haven&amp;#39;t been revoked, etc.  Renewal will only occur if expiration&lt;/span&gt;
+&lt;span class="c1"&gt;# is within 30 days.&lt;/span&gt;
+&lt;span class="nv"&gt;SHELL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/bin/sh
+&lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+&lt;span class="m"&gt;0&lt;/span&gt; */12 * * * root &lt;span class="nb"&gt;test&lt;/span&gt; -x /usr/bin/certbot -a &lt;span class="se"&gt;\!&lt;/span&gt; -d /run/systemd/system &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; perl -e &lt;span class="s1"&gt;&amp;#39;sleep int(rand(3600))&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; certbot -q renew
 &lt;/pre&gt;&lt;/div&gt;</content><category term="nginx"></category><category term="SSL"></category></entry><entry><title>How to Use Nginx's map Module</title><link href="/how-to-use-nginxs-map-module.html" rel="alternate"></link><published>2017-07-13T15:00:00+08:00</published><updated>2017-07-13T15:00:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-07-13:/how-to-use-nginxs-map-module.html</id><summary type="html">&lt;h1&gt;How to Use Nginx's map Module.&lt;/h1&gt;
 &lt;p&gt;Sometimes we need to redirect old URI of our web service to new URI, without changing our legacy frontend. I will walk you through Nginx's map Module that can be used to achieve our goal.&lt;/p&gt;
 &lt;h2&gt;Step 1 – Creating map file&lt;/h2&gt;

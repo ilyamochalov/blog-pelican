@@ -217,6 +217,21 @@ Donating to EFF:                    https://eff.org/donate-le
 <p>To list certs due for renewal, run:</p>
 <div class="highlight"><pre><span></span>$ sudo certbot --dry-run renew
 </pre></div>
+
+
+<p>To make life easier I have a cron at <code>/etc/cron.d/sertbot</code></p>
+<div class="highlight"><pre><span></span><span class="c1"># /etc/cron.d/certbot: crontab entries for the certbot package</span>
+<span class="c1">#</span>
+<span class="c1"># Upstream recommends attempting renewal twice a day</span>
+<span class="c1">#</span>
+<span class="c1"># Eventually, this will be an opportunity to validate certificates</span>
+<span class="c1"># haven&#39;t been revoked, etc.  Renewal will only occur if expiration</span>
+<span class="c1"># is within 30 days.</span>
+<span class="nv">SHELL</span><span class="o">=</span>/bin/sh
+<span class="nv">PATH</span><span class="o">=</span>/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+<span class="m">0</span> */12 * * * root <span class="nb">test</span> -x /usr/bin/certbot -a <span class="se">\!</span> -d /run/systemd/system <span class="o">&amp;&amp;</span> perl -e <span class="s1">&#39;sleep int(rand(3600))&#39;</span> <span class="o">&amp;&amp;</span> certbot -q renew
+</pre></div>
     </article>
 
         <div class="tags">
