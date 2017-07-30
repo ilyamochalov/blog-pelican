@@ -2,7 +2,7 @@ Title: Serving static content with Nginx
 Date: 2017-07-29 22:01
 Category: General
 Tags: nginx
-Summary: This tutorial describes how to use NGINX to serve static content
+Summary: This tutorial describes how to use NGINX to serve static content.
 
 #Serving static content with Nginx
 
