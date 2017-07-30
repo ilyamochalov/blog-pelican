@@ -2,6 +2,8 @@ Title: SSL with Let's Encrypt & Nginx on Debian Jessie
 Date: 2017-07-21 22:00
 Category: General
 Tags: nginx, SSL
+Summary: Simple and free way to secure your web service.
+
 
 #SSL with Let's Encrypt & Nginx on Debian Jessie.
 
@@ -33,7 +35,7 @@ To prove that domain is ours we will have to create folder dedicated for online 
 
 3) Configure your Nginx to prepare for online challenge:
 
-    :::shell
+    :::nginx
     server {
         listen 80;
         server_name domain.name.com;
@@ -82,7 +84,7 @@ If challenge went well you will see output similar to
 
 First we need to redirect all HTTP requsts to HTTPS, by adding following to Nginx configs at HTTP part
 
-    :::shell
+    :::nginx
     server {
         listen 80;
         server_name example.com;
@@ -94,7 +96,7 @@ First we need to redirect all HTTP requsts to HTTPS, by adding following to Ngin
 
 Second we need to add block for HTTPS to Nginx configs
 
-    :::shell
+    :::nginx
     server {
         listen 443 ssl;
         server_name domain.name.com;

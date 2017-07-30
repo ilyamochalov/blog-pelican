@@ -2,6 +2,7 @@ Title: My very first post
 Date: 2017-06-28 22:01
 Category: General
 Tags: general
+Summary: Starting Is The Hardest Part.
 
 # My very first blog post. Motivation.
 

@@ -1,8 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ilya's code and more</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2017-07-21T22:00:00+08:00</updated><entry><title>SSL with Let's Encrypt &amp; Nginx on Debian Jessie</title><link href="/ssl-with-lets-encrypt-nginx-on-debian-jessie.html" rel="alternate"></link><published>2017-07-21T22:00:00+08:00</published><updated>2017-07-21T22:00:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-07-21:/ssl-with-lets-encrypt-nginx-on-debian-jessie.html</id><summary type="html">&lt;h1&gt;SSL with Let's Encrypt &amp;amp; Nginx on Debian Jessie.&lt;/h1&gt;
-&lt;h2&gt;About SSL&lt;/h2&gt;
-&lt;p&gt;SSL (Secure Sockets Layer) or TLS (Transport Layer Security) are protocols that helps you to secure connection to your web-resource. TLS/SSL certificates enable encrypted HTTPS on web servers.
-There are various ways to set HTTPS, but in this quick …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;SSL with Let's Encrypt &amp;amp; Nginx on Debian Jessie.&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ilya's code and more</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2017-07-29T22:01:00+08:00</updated><entry><title>Serving static content with Nginx</title><link href="/serving-static-content-with-nginx.html" rel="alternate"></link><published>2017-07-29T22:01:00+08:00</published><updated>2017-07-29T22:01:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-07-29:/serving-static-content-with-nginx.html</id><summary type="html">&lt;p&gt;This tutorial describes how to use NGINX to serve static content&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Serving static content with Nginx&lt;/h1&gt;
+&lt;p&gt;Below is an example of app server:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;running on a 8080 port,&lt;/li&gt;
+&lt;li&gt;client asks assets at &lt;code&gt;/static/&lt;/code&gt; path,&lt;/li&gt;
+&lt;li&gt;assets are located at &lt;code&gt;/var/www/example.com/current/static/&lt;/code&gt; directory,&lt;/li&gt;
+&lt;li&gt;you would like to serve assets via Ngnix but proxy other requests to the app server running at 8080 port.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;upstream&lt;/span&gt; &lt;span class="s"&gt;http_backend&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="kn"&gt;server&lt;/span&gt; &lt;span class="n"&gt;127.0.0.1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;8080&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;server&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="kn"&gt;listen&lt;/span&gt; &lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;server_name&lt;/span&gt; &lt;span class="s"&gt;example.com&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;access_log&lt;/span&gt; &lt;span class="s"&gt;/var/log/example_com_access.log&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;error_log&lt;/span&gt; &lt;span class="s"&gt;/var/log/example_com_error.log&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="kn"&gt;location&lt;/span&gt; &lt;span class="s"&gt;/static/&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kn"&gt;alias&lt;/span&gt; &lt;span class="s"&gt;/var/www/example.com/current/static/&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;gzip_static&lt;/span&gt; &lt;span class="no"&gt;on&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;expires&lt;/span&gt; &lt;span class="s"&gt;max&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;add_header&lt;/span&gt; &lt;span class="s"&gt;Cache-Control&lt;/span&gt; &lt;span class="s"&gt;public&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kn"&gt;location&lt;/span&gt; &lt;span class="s"&gt;/&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kn"&gt;proxy_pass&lt;/span&gt; &lt;span class="s"&gt;http://http_backend&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;proxy_http_version&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="s"&gt;.1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;proxy_set_header&lt;/span&gt; &lt;span class="s"&gt;X-Forwarded-For&lt;/span&gt; &lt;span class="nv"&gt;$proxy_add_x_forwarded_for&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;proxy_set_header&lt;/span&gt; &lt;span class="s"&gt;Host&lt;/span&gt; &lt;span class="nv"&gt;$http_host&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;proxy_set_header&lt;/span&gt; &lt;span class="s"&gt;X-Real-IP&lt;/span&gt; &lt;span class="nv"&gt;$remote_addr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="nginx"></category></entry><entry><title>SSL with Let's Encrypt &amp; Nginx on Debian Jessie</title><link href="/ssl-with-lets-encrypt-nginx-on-debian-jessie.html" rel="alternate"></link><published>2017-07-21T22:00:00+08:00</published><updated>2017-07-21T22:00:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-07-21:/ssl-with-lets-encrypt-nginx-on-debian-jessie.html</id><summary type="html">&lt;p&gt;Simple and free way to secure your web service.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;SSL with Let's Encrypt &amp;amp; Nginx on Debian Jessie.&lt;/h1&gt;
 &lt;h2&gt;About SSL&lt;/h2&gt;
 &lt;p&gt;SSL (Secure Sockets Layer) or TLS (Transport Layer Security) are protocols that helps you to secure connection to your web-resource. TLS/SSL certificates enable encrypted HTTPS on web servers.
 There are various ways to set HTTPS, but in this quick tutorial I will show you my workflow with &lt;a href="https://letsencrypt.org/"&gt;Let's Encrypt&lt;/a&gt; on Debian Jessie (or any other debian linux distro, Ubuntu for example) with Nginx web server.&lt;/p&gt;
@@ -27,14 +58,14 @@ There are various ways to set HTTPS, but in this quick tutorial I will show you 
 
 
 &lt;p&gt;3) Configure your Nginx to prepare for online challenge:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;server &lt;span class="o"&gt;{&lt;/span&gt;
-    listen &lt;span class="m"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    server_name domain.name.com&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;server&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kn"&gt;listen&lt;/span&gt; &lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;server_name&lt;/span&gt; &lt;span class="s"&gt;domain.name.com&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
-    location &lt;span class="s1"&gt;&amp;#39;/.well-known/acme-challenge&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
-        root /srv/www/le/domain.name.com/&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="o"&gt;}&lt;/span&gt;
-&lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="kn"&gt;location&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;/.well-known/acme-challenge&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kn"&gt;root&lt;/span&gt; &lt;span class="s"&gt;/srv/www/le/domain.name.com/&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -73,33 +104,33 @@ Donating to EFF:                    https://eff.org/donate-le
 
 &lt;p&gt;5) Configure SSL part in Nginx&lt;/p&gt;
 &lt;p&gt;First we need to redirect all HTTP requsts to HTTPS, by adding following to Nginx configs at HTTP part&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;server &lt;span class="o"&gt;{&lt;/span&gt;
-    listen &lt;span class="m"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    server_name example.com&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;server&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kn"&gt;listen&lt;/span&gt; &lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;server_name&lt;/span&gt; &lt;span class="s"&gt;example.com&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="m"&gt;301&lt;/span&gt; https://&lt;span class="nv"&gt;$server_name$request_uri&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;301&lt;/span&gt; &lt;span class="s"&gt;https://&lt;/span&gt;&lt;span class="nv"&gt;$server_name$request_uri&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
-    ...
-&lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="kn"&gt;...&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Second we need to add block for HTTPS to Nginx configs&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;server &lt;span class="o"&gt;{&lt;/span&gt;
-    listen &lt;span class="m"&gt;443&lt;/span&gt; ssl&lt;span class="p"&gt;;&lt;/span&gt;
-    server_name domain.name.com&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;server&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kn"&gt;listen&lt;/span&gt; &lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="s"&gt;ssl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;server_name&lt;/span&gt; &lt;span class="s"&gt;domain.name.com&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
-    include ssl_params&lt;span class="p"&gt;;&lt;/span&gt;
-    ssl_certificate /etc/letsencrypt/live/domain.name.com/fullchain.pem&lt;span class="p"&gt;;&lt;/span&gt;
-    ssl_certificate_key /etc/letsencrypt/live/domain.name.com/privkey.pem&lt;span class="p"&gt;;&lt;/span&gt;
-    ssl_trusted_certificate /etc/letsencrypt/live/domain.name.com/chain.pem&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;include&lt;/span&gt; &lt;span class="s"&gt;ssl_params&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;ssl_certificate&lt;/span&gt; &lt;span class="s"&gt;/etc/letsencrypt/live/domain.name.com/fullchain.pem&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;ssl_certificate_key&lt;/span&gt; &lt;span class="s"&gt;/etc/letsencrypt/live/domain.name.com/privkey.pem&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;ssl_trusted_certificate&lt;/span&gt; &lt;span class="s"&gt;/etc/letsencrypt/live/domain.name.com/chain.pem&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
-    location &lt;span class="s1"&gt;&amp;#39;/.well-known/acme-challenge&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
-        root /srv/www/le/domain.name.com/&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="kn"&gt;location&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;/.well-known/acme-challenge&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kn"&gt;root&lt;/span&gt; &lt;span class="s"&gt;/srv/www/le/domain.name.com/&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
 
-    ....
-&lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="kn"&gt;....&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -126,10 +157,7 @@ Donating to EFF:                    https://eff.org/donate-le
 &lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 &lt;span class="m"&gt;0&lt;/span&gt; */12 * * * root &lt;span class="nb"&gt;test&lt;/span&gt; -x /usr/bin/certbot -a &lt;span class="se"&gt;\!&lt;/span&gt; -d /run/systemd/system &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; perl -e &lt;span class="s1"&gt;&amp;#39;sleep int(rand(3600))&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; certbot -q renew
-&lt;/pre&gt;&lt;/div&gt;</content><category term="nginx"></category><category term="SSL"></category></entry><entry><title>How to Use Nginx's map Module</title><link href="/how-to-use-nginxs-map-module.html" rel="alternate"></link><published>2017-07-13T15:00:00+08:00</published><updated>2017-07-13T15:00:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-07-13:/how-to-use-nginxs-map-module.html</id><summary type="html">&lt;h1&gt;How to Use Nginx's map Module.&lt;/h1&gt;
-&lt;p&gt;Sometimes we need to redirect old URI of our web service to new URI, without changing our legacy frontend. I will walk you through Nginx's map Module that can be used to achieve our goal.&lt;/p&gt;
-&lt;h2&gt;Step 1 – Creating map file&lt;/h2&gt;
-&lt;p&gt;Create file called uri_map …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;How to Use Nginx's map Module.&lt;/h1&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="nginx"></category><category term="SSL"></category></entry><entry><title>How to Use Nginx's map Module</title><link href="/how-to-use-nginxs-map-module.html" rel="alternate"></link><published>2017-07-13T15:00:00+08:00</published><updated>2017-07-13T15:00:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-07-13:/how-to-use-nginxs-map-module.html</id><summary type="html">&lt;p&gt;Short tutorial on using nginx map module.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;How to Use Nginx's map Module.&lt;/h1&gt;
 &lt;p&gt;Sometimes we need to redirect old URI of our web service to new URI, without changing our legacy frontend. I will walk you through Nginx's map Module that can be used to achieve our goal.&lt;/p&gt;
 &lt;h2&gt;Step 1 – Creating map file&lt;/h2&gt;
 &lt;p&gt;Create file called uri_map at root folder (&lt;em&gt;/etc/nginx/uri_map&lt;/em&gt;) of Nginx and fill it in with:&lt;/p&gt;
@@ -180,9 +208,7 @@ Location: https://domain.name.com/old/uri1
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Happy codding!&lt;/p&gt;</content><category term="nginx"></category></entry><entry><title>My very first post</title><link href="/my-very-first-post.html" rel="alternate"></link><published>2017-06-28T22:01:00+08:00</published><updated>2017-06-28T22:01:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-06-28:/my-very-first-post.html</id><summary type="html">&lt;h1&gt;My very first blog post. Motivation.&lt;/h1&gt;
-&lt;p&gt;I am both excited and thrilled to start this blog. This would be my first blogging experience. Main motivation for starting this project is to share my technical experience dealing with various IT tools that I use at work and as hobby.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;“You should …&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;</summary><content type="html">&lt;h1&gt;My very first blog post. Motivation.&lt;/h1&gt;
+&lt;p&gt;Happy codding!&lt;/p&gt;</content><category term="nginx"></category></entry><entry><title>My very first post</title><link href="/my-very-first-post.html" rel="alternate"></link><published>2017-06-28T22:01:00+08:00</published><updated>2017-06-28T22:01:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-06-28:/my-very-first-post.html</id><summary type="html">&lt;p&gt;Starting Is The Hardest Part.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;My very first blog post. Motivation.&lt;/h1&gt;
 &lt;p&gt;I am both excited and thrilled to start this blog. This would be my first blogging experience. Main motivation for starting this project is to share my technical experience dealing with various IT tools that I use at work and as hobby.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;“You should never take more than you give”&lt;/strong&gt; (The Lion King - "Circle of Life” soundtrack)&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;This one of my best quotes and I try to live in accordance. So, writing this blog I want to make my contribution to IT community online as well as, I am looking for feedback from my readers.&lt;/p&gt;</content><category term="general"></category></entry></feed>

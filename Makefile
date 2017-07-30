@@ -86,11 +86,8 @@ endif
 
 
 devserver:
-ifdef PORT
-	$(BASEDIR)/develop_server.sh restart $(PORT)
-else
-	$(BASEDIR)/develop_server.sh restart
-endif
+	$(BASEDIR)/develop_server.sh restart 1234
+
 
 stopserver:
 	$(BASEDIR)/develop_server.sh stop
@@ -121,7 +118,7 @@ github: publish
 	ghp-import -m "Generate Pelican site" -b $(GITHUB_PAGES_BRANCH) $(OUTPUTDIR)
 	git push origin $(GITHUB_PAGES_BRANCH)
 	git add .
-	git commit -m "One more commit"
+	git commit -m "$(shell date)"
 	git push -f blog-pelican
 
 .PHONY: html help clean regenerate serve serve-global devserver stopserver publish ssh_upload rsync_upload dropbox_upload ftp_upload s3_upload cf_upload github
