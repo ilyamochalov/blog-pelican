@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ilya's code and more - General</title><link href="/" rel="alternate"></link><link href="/feeds/general.atom.xml" rel="self"></link><id>/</id><updated>2017-07-29T22:01:00+08:00</updated><entry><title>Serving static content with Nginx</title><link href="/serving-static-content-with-nginx.html" rel="alternate"></link><published>2017-07-29T22:01:00+08:00</published><updated>2017-07-29T22:01:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-07-29:/serving-static-content-with-nginx.html</id><summary type="html">&lt;p&gt;This tutorial describes how to use NGINX to serve static content.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Serving static content with Nginx&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ilya's code and more - General</title><link href="/" rel="alternate"></link><link href="/feeds/general.atom.xml" rel="self"></link><id>/</id><updated>2017-07-31T20:00:00+08:00</updated><entry><title>Low cost Digital Signage with RaspberryPi and Screenly OSE</title><link href="/low-cost-digital-signage-with-raspberrypi-and-screenly-ose.html" rel="alternate"></link><published>2017-07-31T20:00:00+08:00</published><updated>2017-07-31T20:00:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-07-31:/low-cost-digital-signage-with-raspberrypi-and-screenly-ose.html</id><summary type="html">&lt;p&gt;Awesome project that shows how to build cheap digital signage for your school, company or event.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Low cost Digital Signage with RaspberryPi and Screenly OSE&lt;/h1&gt;
+&lt;p&gt;This article will show you how everyone can easily build cheap digital signage project with minimal time and money investments&lt;/p&gt;
+&lt;h2&gt;1. Project description&lt;/h2&gt;
+&lt;p&gt;If you need a digital signage solution which is low cost, open sourced, robust and easy to setup then you are reading right article. Screenly OSE will allow you create playlist with pictures, web-pages and even videos.
+There are only few things that you will need for this project:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.raspberrypi.org/"&gt;RaspberryPI&lt;/a&gt; &lt;a href="https://www.raspberrypi.org/products/#buy-now-modal"&gt;3 Model B&lt;/a&gt;, which is $35 one board computer;&lt;/li&gt;
+&lt;li&gt;Latest &lt;a href="https://www.screenly.io/ose/"&gt;Screenly OSE&lt;/a&gt; custom image;&lt;/li&gt;
+&lt;li&gt;A display or TV or any other screen with HDMI port;&lt;/li&gt;
+&lt;li&gt;An SD Card (&amp;gt;4GB). Class 10 is highly recommended;&lt;/li&gt;
+&lt;li&gt;An HDMI-cable;&lt;/li&gt;
+&lt;li&gt;A network connection (with DHCP);&lt;/li&gt;
+&lt;li&gt;A keyboard (needed for initial configuration)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;2. Installation&lt;/h2&gt;
+&lt;p&gt;The fastest and easiest way to install ScreenlyOSE is by downloading custom image &lt;a href="https://github.com/screenly/screenly-ose/releases"&gt;here&lt;/a&gt; (more ways of installation is described on &lt;a href="https://www.screenly.io/ose/"&gt;this page&lt;/a&gt;)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Download Screenly OSE disk image from: &lt;a href="https://github.com/screenly/screenly-ose/releases"&gt;GitHub Repository&lt;/a&gt;;&lt;/li&gt;
+&lt;li&gt;Write image to SD card either with &lt;a href="https://etcher.io/"&gt;Etcher&lt;/a&gt;(recomended) or following official &lt;a href="https://www.raspberrypi.org/documentation/installation/installing-images/"&gt;instruction&lt;/a&gt;(skip download image section and start with choosing OS of your operation PC)&lt;/li&gt;
+&lt;li&gt;Once image is written onto SD card, please place into RaspberryPi slot, plug in HDMI, keyboard and power on your board &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3. Tweaking configurations&lt;/h2&gt;
+&lt;h3&gt;3.1 System configuration&lt;/h3&gt;
+&lt;p&gt;If you successfully followed all steps in part 2, then now you should see screen similar to one below:&lt;/p&gt;
+&lt;p&gt;SCREEN PICTURE HERE&lt;/p&gt;
+&lt;p&gt;Press &lt;code&gt;Ctrl+Alt+F1&lt;/code&gt; to show command line interface that look like this:&lt;/p&gt;
+&lt;p&gt;SCREEN PICTURE HERE&lt;/p&gt;</content><category term="RaspberryPi"></category></entry><entry><title>Serving static content with Nginx</title><link href="/serving-static-content-with-nginx.html" rel="alternate"></link><published>2017-07-29T22:01:00+08:00</published><updated>2017-07-29T22:01:00+08:00</updated><author><name>Ilya Mochalov</name></author><id>tag:None,2017-07-29:/serving-static-content-with-nginx.html</id><summary type="html">&lt;p&gt;This tutorial describes how to use NGINX to serve static content.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Serving static content with Nginx&lt;/h1&gt;
 &lt;p&gt;Below is an example of app server:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;running on a 8080 port,&lt;/li&gt;

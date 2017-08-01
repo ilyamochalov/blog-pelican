@@ -2,14 +2,15 @@
 <html lang="en">
 
 <head>
-        <meta charset="utf-8">
+            <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-        <title>Ilya's code and more - Authors</title>
+        <title>Low cost Digital Signage with RaspberryPi and Screenly OSE</title>
 
             <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ilya's code and more Full Atom Feed" />
+            <link href="/feeds/general.atom.xml" type="application/atom+xml" rel="alternate" title="Ilya's code and more Categories Atom Feed" />
         <!-- Bootstrap Core CSS -->
         <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
 
@@ -32,8 +33,25 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-                <meta property="og:locale" content="">
+
+
+        <meta name="description" content="Awesome project that shows how to build cheap digital signage for your school, company or event.">
+
+        <meta name="author" content="Ilya Mochalov">
+
+        <meta name="tags" content="RaspberryPi">
+
+	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Ilya's code and more">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/ilya-mochalov.html">
+	<meta property="og:url" content="/low-cost-digital-signage-with-raspberrypi-and-screenly-ose.html">
+	<meta property="og:title" content="Low cost Digital Signage with RaspberryPi and Screenly OSE">
+	<meta property="article:published_time" content="2017-07-31 20:00:00+08:00">
+            <meta property="og:description" content="Awesome project that shows how to build cheap digital signage for your school, company or event.">
+
+            <meta property="og:image" content="/theme/images/post-bg.jpg">
 </head>
 
 <body>
@@ -66,12 +84,16 @@
     </nav>
 
     <!-- Page Header -->
-        <header class="intro-header" style="background-image: url('/theme/images/home-bg.jpg')">
+        <header class="intro-header" style="background-image: url('/theme/images/post-bg.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Articles by </h1>
+                        <h1>Low cost Digital Signage with RaspberryPi and Screenly OSE</h1>
+                        <span class="meta">Posted 
+                             on Mon 31 July 2017
+                        </span>
+                        
                     </div>
                 </div>
             </div>
@@ -82,14 +104,43 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="post-preview">
-            <a href="/author/ilya-mochalov.html" rel="bookmark">
-                <h2 class="post-title">
-                    Ilya Mochalov (5)
-                </h2>
-            </a>
+    <!-- Post Content -->
+    <article>
+        <h1>Low cost Digital Signage with RaspberryPi and Screenly OSE</h1>
+<p>This article will show you how everyone can easily build cheap digital signage project with minimal time and money investments</p>
+<h2>1. Project description</h2>
+<p>If you need a digital signage solution which is low cost, open sourced, robust and easy to setup then you are reading right article. Screenly OSE will allow you create playlist with pictures, web-pages and even videos.
+There are only few things that you will need for this project:</p>
+<ul>
+<li><a href="https://www.raspberrypi.org/">RaspberryPI</a> <a href="https://www.raspberrypi.org/products/#buy-now-modal">3 Model B</a>, which is $35 one board computer;</li>
+<li>Latest <a href="https://www.screenly.io/ose/">Screenly OSE</a> custom image;</li>
+<li>A display or TV or any other screen with HDMI port;</li>
+<li>An SD Card (&gt;4GB). Class 10 is highly recommended;</li>
+<li>An HDMI-cable;</li>
+<li>A network connection (with DHCP);</li>
+<li>A keyboard (needed for initial configuration)</li>
+</ul>
+<h2>2. Installation</h2>
+<p>The fastest and easiest way to install ScreenlyOSE is by downloading custom image <a href="https://github.com/screenly/screenly-ose/releases">here</a> (more ways of installation is described on <a href="https://www.screenly.io/ose/">this page</a>)</p>
+<ul>
+<li>Download Screenly OSE disk image from: <a href="https://github.com/screenly/screenly-ose/releases">GitHub Repository</a>;</li>
+<li>Write image to SD card either with <a href="https://etcher.io/">Etcher</a>(recomended) or following official <a href="https://www.raspberrypi.org/documentation/installation/installing-images/">instruction</a>(skip download image section and start with choosing OS of your operation PC)</li>
+<li>Once image is written onto SD card, please place into RaspberryPi slot, plug in HDMI, keyboard and power on your board </li>
+</ul>
+<h2>3. Tweaking configurations</h2>
+<h3>3.1 System configuration</h3>
+<p>If you successfully followed all steps in part 2, then now you should see screen similar to one below:</p>
+<p>SCREEN PICTURE HERE</p>
+<p>Press <code>Ctrl+Alt+F1</code> to show command line interface that look like this:</p>
+<p>SCREEN PICTURE HERE</p>
+    </article>
+
+        <div class="tags">
+            <p>tags: <a href="/tag/raspberrypi.html">RaspberryPi</a></p>
         </div>
-        <hr>
+
+    <hr>
+
             </div>
         </div>
     </div>
